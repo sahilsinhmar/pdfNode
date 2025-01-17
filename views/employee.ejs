@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Payslip</title>
+    <style>
+       .logo {
+        background-image: url("<%= logoBase64 %>");
+            width: 170px; /* Set the width as needed */
+            height: 100px; /* Set the height as needed */
+            background-repeat: no-repeat;
+            
+            background-size: contain;
+            
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <tbody>
+    <div class="container flex flex-col items-center justify-center p-8">
+      <div class="w-3/4 font-medium border-2 border-black">
+        <div class="flex items-center justify-around p-2">
+          <div class="w-1/2  ">
+            <div class="logo"></div>
+          </div>
+
+          <div class="w-1/2 h-full flex flex-col items-end">
+            <p>Homzhub Advisors Pvt Ltd</p>
+            <p>209, Himshikhar, 11 Shivaji Nagar,</p>
+            <p>N.A Road, Nagpur 440010,</p>
+            <p>Mahrarashtra India</p>
+          </div>
+        </div>
+        <div
+          class="border text-black border-black text-center font-bold text-xl p-2"
+        >
+          <p>Payslip for the month of May 2018</p>
+        </div>
+        <div>
+          <table class="w-full border-collapse table-auto">
+            <tbody>
+              <tr>
+                <td class="border px-4 py-2">Employee Number</td>
+                <td class="border px-4 py-2">001</td>
+                <td class="border px-4 py-2">Date of Payment</td>
+                <td class="border px-4 py-2">31st May 2018</td>
+              </tr>
+              <tr>
+                <td class="border px-4 py-2">Name</td>
+                <td class="border px-4 py-2"><%= employee['Name']  %></td>
+                <td class="border px-4 py-2">Bank Name</td>
+                <td class="border px-4 py-2">XYZ Bank</td>
+              </tr>
+              <tr>
+                <td class="border px-4 py-2">Department</td>
+                <td class="border px-4 py-2">HR</td>
+                <td class="border px-4 py-2">Bank A/c No</td>
+                <td class="border px-4 py-2">1234567890</td>
+              </tr>
+              <tr>
+                <td class="border px-4 py-2">Location</td>
+                <td class="border px-4 py-2">Nagpur</td>
+                <td class="border px-4 py-2">Mode of Payment</td>
+                <td class="border px-4 py-2">Direct Deposit</td>
+              </tr>
+              <tr>
+                <td class="border px-4 py-2">Designation</td>
+                <td class="border px-4 py-2">Manager</td>
+                <td class="border px-4 py-2">Payment Reference</td>
+                <td class="border px-4 py-2">Salary May 2018</td>
+              </tr>
+              <tr>
+                <td class="border px-4 py-2">Date of Joining</td>
+                <td class="border px-4 py-2">1st Jan 2018</td>
+                <td class="border px-4 py-2">Monthly CTC</td>
+                <td class="border px-4 py-2">50000 INR</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-2 border-r">Leave Entitled</td>
+                <td class="px-4 py-2 border-r">20 days</td>
+                <td class="px-4 py-2 border-r">Leave Taken</td>
+                <td class="px-4 py-2">2 days</td>
+              </tr>
+
+
+              <tr class="border border-black border-collapse text-center font-bold">
+                <td class="px-2 " >Earnings</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse ">
+                    <tbody>
+                    <td class=" px-2 border-r border-black  w-1/2">Amount (INR)</td>
+                    <td class=" px-2 w-1/2">Year to date Earnings</td>
+                  </tbody>
+                </table>
+                </td>
+                <td >Deductions</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-1/2 px-2 border-black border-r" >Amount (INR)</td>
+                        <td class=" w-1/2 px-2">Year to date Deductions</td>
+                      </tr>
+                    
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start " >Basic Salary</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['Base Salary'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start">Professional Tax</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-1/2 h-[45px] px-2 border-r border-black text-end" >&#8377; <%= employee['Professional Tax']  %></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                    
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start">House Rent Allowance</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['House Rent Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start">TDS - Advance Tax</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-1/2 h-[45px] px-2 border-r border-black text-end" >&#8377; <%= employee['TDS/Adv']  %></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                    
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%]">Transport Allowance</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['Transport Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] ">Employee Provident Fund</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" >&#8377; <%= employee['Provident Fund']  %></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%]">Comms Allowance</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['Company Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] ">Insurance / ESIC</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" >&#8377; <%= employee['Employees State Insurance Corporation']  %></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%]">City Comp Allowance</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['City Compensatory Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] ">Gratuity</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" >&#8377; <%= employee['Employees State Insurance Corporation']  %></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%]">Special Allowance</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['Special Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] ">Unpaid days / leave</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" >&#8377; <%= employee['Employees State Insurance Corporation']  %></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%]">Medical Allowance</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['Medical Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] ">Charity</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" >&#8377; <%= employee['Employees State Insurance Corporation']  %></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%]">Individual Performance</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['Medical Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] "></td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" ></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%]">Company Performance</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['Medical Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] "></td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" ></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] font-bold">Monthly Salary</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377; <%= employee['Medical Allowance'] %></td>
+                    <td class=" px-2  w-1/2 text-end  ">2019</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] "></td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" ></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] font-bold"></td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end"></td>
+                    <td class=" px-2  w-1/2 text-end  "></td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] "></td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" ></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] ">Claim reimbursements</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end"></td>
+                    <td class=" px-2  w-1/2 text-end  "></td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] "></td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" ></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] ">Others</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end"></td>
+                    <td class=" px-2  w-1/2 text-end  "></td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] "></td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" ></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] font-bold">Misc. Payments</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end"></td>
+                    <td class=" px-2  w-1/2 text-end  "></td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] "></td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" ></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] font-bold"></td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end"></td>
+                    <td class=" px-2  w-1/2 text-end  "></td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] "></td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" ></td>
+                        <td class=" w-1/2 px-2 text-end"></td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] font-bold">(A) Total Earnings</td>
+                <td class="border border-black h-[100%]">
+                  <table class=" w-full border-collapse h-[45px] ">
+                    <tbody> 
+                    <td class="w-[50%] px-2 border-r border-black   text-end">&#8377;</td>
+                    <td class=" px-2  w-1/2 text-end  ">&#8377;</td>
+                  </tbody>
+                </table>
+                </td>
+                <td  class="px-2 text-start w-[25%] font-bold ">(B) Total Deductions</td>
+                <td class="border border-black h-[100%]">
+                  <table class="w-full border-collapse">
+                    <tbody>
+                      <tr class="w-full border-collapse">
+                        <td class=" w-[50%] h-[45px] px-2 border-r border-black text-end" >&#8377;</td>
+                        <td class=" w-1/2 px-2 text-end">&#8377;</td>
+                      </tr>
+                  </tbody>
+                </table>
+                </td>
+              </tr>
+
+
+
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] h-[45px] font-bold border-r border-black">Net Pay (A-B)</td>
+                
+                <td  class="px-2 text-start w-[25%] font-bold ">&#8377;</td>
+                
+              </tr>
+
+
+              
+              <tr class="border border-black border-collapse text-center text-sm">
+                <td class="px-2 text-start w-[25%] h-[45px] font-bold border-r border-black">Net Pay (in words)</td>
+                
+                <td  class="px-2 text-start w-[30%] font-bold ">Twelve Thousand and One Hundred only</td>
+                
+              </tr>
+
+              <tr class=" h-[45px] text-center">
+                <td colspan="4" class="font-bold px-2 border-black border">
+
+                  Your efforts in organization building is deeply appreciated. Thank you for your playing your part.s
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div> 
+      </div>
+      <p class="text-md font-semibold mt-8">This payslip is computer generated. No signature is required.</p>
+    </div>
+  </body>
+</html>
