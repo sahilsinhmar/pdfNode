@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Preview</title>
+    <link rel="stylesheet" href="/css/output.css">
+    <style>
+        iframe {
+            border: 1px solid #e5e7eb;
+            width: 100%;
+            height: 800px;
+            border-radius: 0.5rem;
+        }
+        .preview-container {
+            display: flex;
+            gap: 20px;
+        }
+        .controls {
+            width: 350px;
+            flex-shrink: 0;
+        }
+        .preview {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body class="p-6 bg-gray-50">
+    <div class="preview-container">
+        <div class="controls">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-800 mb-6">PDF Configuration</h2>
+                <form id="pdfForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">URL</label>
+                        <input type="url" id="url" required 
+                               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                               placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Format</label>
+                            <select id="format" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-white">
+                                <option value="A4">A4</option>
+                                <option value="Letter">Letter</option>
+                                <option value="Legal">Legal</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Scale</label>
+                            <input type="number" id="scale" value="1.0" step="0.1" min="0.1" max="2"
+                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Orientation</label>
+                            <select id="landscape" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 bg-white">
+                                <option value="false">Portrait</option>
+                                <option value="true">Landscape</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <label class="relative inline-flex items-center cursor-pointer mt-6">
+                                <input type="checkbox" id="printBackground" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                                <span class="ml-3 text-sm font-medium text-gray-700">Print Background</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Margins (mm)</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="number" id="marginTop" placeholder="Top" value="0" min="0"
+                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                            <input type="number" id="marginRight" placeholder="Right" value="0" min="0"
+                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                            <input type="number" id="marginBottom" placeholder="Bottom" value="0" min="0"
+                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                            <input type="number" id="marginLeft" placeholder="Left" value="0" min="0"
+                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 mt-6">
+                        Generate Preview
+                    </button>
+                </form>
+                
+                <!-- Status Messages -->
+                <div id="statusMessage" class="mt-4 hidden">
+                    <div class="p-4 rounded-lg">
+                        <p class="text-sm"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="preview">
+            <div id="loadingOverlay" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 backdrop-blur-sm">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-xl shadow-xl">
+                    <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent mx-auto"></div>
+                    <p class="mt-4 text-gray-700 text-center font-medium">Generating PDF preview...</p>
+                </div>
+            </div>
+            <iframe id="pdfViewer" class="shadow-lg"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const showStatus = (message, type = 'info') => {
+            const statusEl = document.getElementById('statusMessage');
+            const messageEl = statusEl.querySelector('p');
+            statusEl.classList.remove('hidden');
+            messageEl.textContent = message;
+            
+            // Set color based on message type
+            const colors = {
+                error: 'bg-red-100 text-red-700',
+                success: 'bg-green-100 text-green-700',
+                info: 'bg-blue-100 text-blue-700'
+            };
+            statusEl.querySelector('div').className = `p-4 rounded-md ${colors[type]}`;
+        };
+
+        const validateUrl = (url) => {
+            try {
+                new URL(url);
+                return true;
+            } catch {
+                return false;
+            }
+        };
+
+        document.getElementById('url').addEventListener('input', (e) => {
+            const url = e.target.value;
+            if (url && !validateUrl(url)) {
+                showStatus('Please enter a valid URL starting with http:// or https://', 'error');
+            } else {
+                document.getElementById('statusMessage').classList.add('hidden');
+            }
+        });
+
+        document.getElementById('pdfForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const url = document.getElementById('url').value;
+            if (!validateUrl(url)) {
+                showStatus('Please enter a valid URL starting with http:// or https://', 'error');
+                return;
+            }
+
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.remove('hidden');
+            document.getElementById('statusMessage').classList.add('hidden');
+            
+            const pdfOptions = {
+                url: url,
+                format: document.getElementById('format').value,
+                scale: parseFloat(document.getElementById('scale').value),
+                landscape: document.getElementById('landscape').value === 'true',
+                printBackground: document.getElementById('printBackground').checked,
+                margin: {
+                    top: document.getElementById('marginTop').value + 'mm',
+                    right: document.getElementById('marginRight').value + 'mm',
+                    bottom: document.getElementById('marginBottom').value + 'mm',
+                    left: document.getElementById('marginLeft').value + 'mm'
+                }
+            };
+
+            try {
+                const queryString = new URLSearchParams({
+                    url: pdfOptions.url,
+                    options: JSON.stringify(pdfOptions)
+                }).toString();
+
+                const iframe = document.getElementById('pdfViewer');
+                iframe.onload = () => {
+                    loadingOverlay.classList.add('hidden');
+                    showStatus('PDF generated successfully!', 'success');
+                };
+                
+                iframe.onerror = async () => {
+                    loadingOverlay.classList.add('hidden');
+                    try {
+                        const response = await fetch(`/pdf?${queryString}`);
+                        const data = await response.json();
+                        showStatus(data.userMessage || 'Failed to generate PDF. Please try again.', 'error');
+                    } catch {
+                        showStatus('Failed to generate PDF. Please try again.', 'error');
+                    }
+                };
+
+                iframe.src = `/pdf?${queryString}`;
+            } catch (error) {
+                loadingOverlay.classList.add('hidden');
+                showStatus('An error occurred while generating the PDF.', 'error');
+            }
+        });
+    </script>
+</body>
+</html>
