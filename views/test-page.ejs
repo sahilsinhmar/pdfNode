@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>A4 Test Page</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            padding: 20mm;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
+        }
+
+        /* Print-specific styles */
+        @media print {
+            .page-break {
+                page-break-before: always;
+            }
+            
+            .no-print {
+                display: none;
+            }
+            
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+                page-break-inside: avoid;
+            }
+        }
+
+        .content {
+            margin-bottom: 10mm;
+        }
+
+        /* Test elements for PDF generation */
+        .color-box {
+            width: 50mm;
+            height: 50mm;
+            background-color: #e0f0ff;
+            margin: 5mm 0;
+            border: 1px solid #333;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5mm;
+            margin: 10mm 0;
+        }
+
+        .grid-item {
+            background: #f0f0f0;
+            padding: 5mm;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>A4 Test Page</h1>
+        <p>This is a test page with A4 dimensions (210mm x 297mm). You can use this URL to test your PDF conversion:</p>
+        <code class="no-print">http://localhost:3000/pdf?url=http://localhost:3000/test-page</code>
+    </div>
+
+    <div class="content">
+        <h2>Print Testing Elements</h2>
+        <div class="color-box"></div>
+        <p>The box above should have a light blue background in both screen and print.</p>
+    </div>
+
+    <div class="test-grid">
+        <div class="grid-item">Grid Item 1</div>
+        <div class="grid-item">Grid Item 2</div>
+        <div class="grid-item">Grid Item 3</div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="content">
+        <h2>Page 2 - After Break</h2>
+        <p>This content should appear on a new page when printed.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+</body>
+</html>
