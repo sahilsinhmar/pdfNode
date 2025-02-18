@@ -1,4 +1,5 @@
 const { convertToPdfFunction } = require('../convertToPdf');
+const { query, validationResult } = require('express-validator');
 
 // Create a simple rate limiter for concurrent requests
 const MAX_CONCURRENT_REQUESTS = 10;
@@ -25,6 +26,49 @@ const concurrentLimiter = (req, res, next) => {
     }
 };
 
+// Validation middleware
+const validatePdfRequest = [
+    query('url')
+        .exists()
+        .withMessage('URL is required')
+        .isURL({ protocols: ['http', 'https'], require_protocol: true })
+        .withMessage('Valid HTTP/HTTPS URL is required'),
+    query('options')
+        .optional()
+        .custom((value) => {
+            try {
+                const options = JSON.parse(value);
+                
+                // Validate scale if present
+                if (options.scale !== undefined) {
+                    const scale = parseFloat(options.scale);
+                    if (scale < 0.1 || scale > 2.0) {
+                        throw new Error('Scale must be between 0.1 and 2.0');
+                    }
+                }
+                
+                // Validate format if present
+                if (options.format && !['A4', 'A3', 'Letter', 'Legal', 'Tabloid'].includes(options.format)) {
+                    throw new Error('Invalid format specified');
+                }
+                
+                // Validate landscape if present
+                if (options.landscape !== undefined && typeof options.landscape !== 'boolean') {
+                    throw new Error('Landscape must be a boolean value');
+                }
+                
+                // Validate printBackground if present
+                if (options.printBackground !== undefined && typeof options.printBackground !== 'boolean') {
+                    throw new Error('PrintBackground must be a boolean value');
+                }
+                
+                return true;
+            } catch (error) {
+                throw new Error('Invalid PDF options: ' + error.message);
+            }
+        })
+];
+
 // Controller methods
 const renderPreviewPage = (req, res) => {
     res.render('preview');
@@ -36,48 +80,28 @@ const renderTestPage = (req, res) => {
 
 const generatePdf = async (req, res) => {
     try {
+        // Check for validation errors
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                error: 'Validation Error',
+                userMessage: errors.array()[0].msg,
+                details: errors.array()
+            });
+        }
+
         const url = req.query.url;
         let pdfOptions = {};
 
-        if (!url || typeof url !== 'string') {
-            return res.status(400).json({ 
-                error: 'URL is required',
-                userMessage: 'Please provide a valid URL'
-            });
-        }
-
-        if (!/^https?:\/\//.test(url)) {
-            return res.status(400).json({ 
-                error: 'Invalid URL protocol',
-                userMessage: 'URL must begin with http:// or https://'
-            });
-        }
-
         if (req.query.options) {
-            try {
-                const options = JSON.parse(req.query.options);
-                console.log(options)
-                pdfOptions = {
-                    format: options.format,
-                    landscape: options.landscape,
-                    printBackground: options.printBackground,
-                    scale: options.scale,
-                    margin: options.margin
-                };
-
-                // Validate scale range
-                if (pdfOptions.scale < 0.1 || pdfOptions.scale > 2.0) {
-                    return res.status(400).json({
-                        error: 'Invalid scale value',
-                        userMessage: 'Scale must be between 0.1 and 2.0'
-                    });
-                }
-            } catch (e) {
-                return res.status(400).json({ 
-                    error: 'Invalid PDF options',
-                    userMessage: 'Invalid PDF options provided'
-                });
-            }
+            const options = JSON.parse(req.query.options);
+            pdfOptions = {
+                format: options.format,
+                landscape: options.landscape,
+                printBackground: options.printBackground,
+                scale: options.scale,
+                margin: options.margin
+            };
         }
 
         const pdfBuffer = await convertToPdfFunction(url, pdfOptions);
@@ -121,5 +145,6 @@ module.exports = {
     concurrentLimiter,
     renderPreviewPage,
     renderTestPage,
-    generatePdf
+    generatePdf,
+    validatePdfRequest
 };
