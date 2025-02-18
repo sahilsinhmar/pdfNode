@@ -30,9 +30,9 @@ const concurrentLimiter = (req, res, next) => {
 const validatePdfRequest = [
     query('url')
         .exists()
-        .withMessage('URL is required')
-        .isURL({ protocols: ['http', 'https'], require_protocol: true })
-        .withMessage('Valid HTTP/HTTPS URL is required'),
+        .withMessage('URL is required'),
+        // .isURL({ protocols: ['http', 'https'], require_protocol: true })
+        // .withMessage('Valid HTTP/HTTPS URL is required'),
     query('options')
         .optional()
         .custom((value) => {
