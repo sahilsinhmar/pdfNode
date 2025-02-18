@@ -1,7 +1,7 @@
 'use strict';
 
 const puppeteer = require('puppeteer');
-const MAX_PDF_SIZE = process.env.MAX_PDF_SIZE ? parseInt(process.env.MAX_PDF_SIZE, 10) : 5 * 1024 * 1024;
+const MAX_PDF_SIZE = process.env.MAX_PDF_SIZE ? parseInt(process.env.MAX_PDF_SIZE, 10) : 20 * 1024 * 1024;
 
 // Singleton browser instance
 let browserInstance = null;
@@ -67,7 +67,6 @@ async function convertToPdfFunction(url, pdfOptions = {}) {
             deviceScaleFactor: 1,
         });
 
-        await page.emulateMediaType('screen');
 
         // Navigate with timeout and network idle
         await Promise.race([

@@ -1,9 +1,12 @@
 const express = require("express");
+const cors = require('cors')
 const path = require("path");
 const { cleanup } = require("./convertToPdf");
 const { concurrentLimiter, renderPreviewPage, renderTestPage, generatePdf, validatePdfRequest } = require("./controllers/pdfController");
 
 const app = express();
+app.use(cors({
+}))
 app.use(express.static(path.join(__dirname, "public")));
 
 app.set("view engine", "ejs");
